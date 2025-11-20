@@ -1,0 +1,162 @@
+proxy-providers:
+  providers:
+    url: ""
+    type: http
+    interval: 86400
+    health-check: 
+      enable: true
+      url: "https://www.gstatic.com/generate_204"
+      interval: 300
+
+mixed-port: 7890
+ipv6: true
+allow-lan: true
+unified-delay: true
+tcp-concurrent: true
+external-controller: 127.0.0.1:9090
+secret: leejieun
+find-process-mode: strict
+global-client-fingerprint: random
+
+profile:
+  store-selected: true
+  store-fake-ip: true
+
+sniffer:
+  enable: true
+  parse-pure-ip: true
+  sniff:
+    HTTP:
+      ports: [80, 8080-8880]
+      override-destination: true
+    TLS:
+      ports: [443, 8443]
+    QUIC:
+      ports: [443, 8443]
+  skip-domain:
+    - "*.vivox.com"
+
+tun:
+  enable: true
+  stack: mixed
+  dns-hijack:
+    - "any:53"
+    - "tcp://any:53"
+  auto-route: true
+  auto-detect-interface: true
+  strict-route: true
+
+dns:
+  enable: true
+  ipv6: true
+  respect-rules: true
+  enhanced-mode: fake-ip
+  fake-ip-filter:
+    - "*.lan"
+    - "+.local"
+    - "+.msftconnecttest.com"
+    - "+.msftncsi.com"
+    - "rule-set:private_domain"
+    - "rule-set:microsoft_domain"
+    - "rule-set:cn_domain"
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+  nameserver:
+    - https://dns.google/dns-query
+    - https://cloudflare-dns.com/dns-query
+  proxy-server-nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+  direct-nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+
+proxy-groups:
+  - name: Proxy
+    type: select
+    include-all: true
+    exclude-type: direct
+  
+  - name: GLOBAL
+    type: select
+    proxies:
+      - Proxy
+    
+rules:
+  - RULE-SET,private_domain,DIRECT
+  - RULE-SET,reject_domain,REJECT
+  - RULE-SET,telegram_domain,Proxy
+  - RULE-SET,google_domain,Proxy
+  - RULE-SET,ai_domain,Proxy
+  - RULE-SET,github_domain,Proxy
+  - RULE-SET,youtube_domain,Proxy
+  - RULE-SET,tiktok_domain,Proxy
+  - RULE-SET,instagram_domain,Proxy
+  - RULE-SET,twitter_domain,Proxy
+  - RULE-SET,microsoft_domain,DIRECT
+  - RULE-SET,geolocation-!cn,Proxy
+  - RULE-SET,cn_domain,DIRECT
+  - RULE-SET,private_ip,DIRECT,no-resolve
+  - RULE-SET,telegram_ip,Proxy,no-resolve
+  - RULE-SET,google_ip,Proxy,no-resolve
+  - RULE-SET,cn_ip,DIRECT,no-resolve
+  - MATCH,Proxy
+
+rule-anchor:
+  ip: &ip {type: http, interval: 86400, behavior: ipcidr, format: mrs}
+  domain: &domain {type: http, interval: 86400, behavior: domain, format: mrs}
+  
+rule-providers: 
+  private_domain:
+    <<: *domain
+    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.mrs"
+  reject_domain:
+    <<: *domain
+    url: "https://testingcf.jsdelivr.net/gh/TG-Twilight/AWAvenue-Ads-Rule@main/Filters/AWAvenue-Ads-Rule-Clash.mrs"
+  ai_domain:
+    <<: *domain
+    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-ai-!cn.mrs"
+  youtube_domain:
+    <<: *domain
+    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/youtube.mrs"
+  google_domain:
+    <<: *domain
+    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google.mrs"
+  github_domain:
+    <<: *domain
+    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/github.mrs"
+  telegram_domain:
+    <<: *domain
+    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/telegram.mrs"
+  instagram_domain:
+    <<: *domain
+    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/instagram.mrs"
+  microsoft_domain:
+    <<: *domain
+    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/microsoft.mrs"
+  tiktok_domain:
+    <<: *domain
+    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/tiktok.mrs"
+  twitter_domain:
+    <<: *domain
+    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/twitter.mrs"
+  geolocation-!cn:
+    <<: *domain
+    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-!cn.mrs"
+  cn_domain:
+    <<: *domain
+    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs"
+  
+  private_ip:
+    <<: *ip
+    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/private.mrs"
+  cn_ip:
+    <<: *ip
+    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs"
+  google_ip:
+    <<: *ip
+    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/google.mrs"
+  telegram_ip:
+    <<: *ip
+    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/telegram.mrs"
