@@ -81,8 +81,7 @@ const main = (config) => {
     'direct-nameserver': [
       'https://dns.alidns.com/dns-query',
       'https://doh.pub/dns-query'
-    ],
-    fallback: []
+    ]
   };
   
   config['proxy-groups'] = [
