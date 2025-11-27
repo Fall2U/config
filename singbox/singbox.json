@@ -60,13 +60,6 @@
         ],
         "rewrite_ttl": 1,
         "server": "fakeip"
-      },
-      {
-        "rule_set": [
-          "microsoft_domain",
-          "cn_domain"
-        ],
-        "server": "dns_direct"
       }
     ],
     "independent_cache": true,
@@ -111,7 +104,9 @@
     {
       "type": "selector",
       "tag": "Global",
-    "outbounds": ["Proxy"]
+      "outbounds": [
+        "Proxy"
+      ]
     }
   ],
   "route": {
@@ -158,9 +153,7 @@
       {
         "rule_set": [
           "telegram_domain",
-          "telegram_ip",
           "google_domain",
-          "google_ip",
           "ai_domain",
           "github_domain",
           "youtube_domain",
@@ -173,7 +166,19 @@
       {
         "rule_set": [
           "microsoft_domain",
-          "cn_domain",
+          "cn_domain"
+        ],
+        "outbound": "Direct"
+      },
+      {
+        "rule_set": [
+          "telegram_ip",
+          "google_ip"
+        ],
+        "outbound": "Proxy"
+      },
+      {
+        "rule_set": [
           "cn_ip"
         ],
         "outbound": "Direct"
