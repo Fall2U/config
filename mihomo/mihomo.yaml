@@ -81,6 +81,7 @@ rules:
   - RULE-SET,tiktok_domain,Proxy
   - RULE-SET,instagram_domain,Proxy
   - RULE-SET,twitter_domain,Proxy
+  - RULE-SET,steam_domain,Proxy
   - RULE-SET,microsoft_domain,DIRECT
   - RULE-SET,cn_domain,DIRECT
   - RULE-SET,private_ip,DIRECT,no-resolve
@@ -130,6 +131,9 @@ rule-providers:
   twitter_domain:
     <<: *domain
     url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/twitter.mrs"
+  steam_domain:
+    <<: *domain
+    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/steam.mrs"
   cn_domain:
     <<: *domain
     url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs"
