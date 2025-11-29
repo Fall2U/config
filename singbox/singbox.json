@@ -159,7 +159,8 @@
           "youtube_domain",
           "tiktok_domain",
           "instagram_domain",
-          "twitter_domain"
+          "twitter_domain",
+          "steam_domain"
         ],
         "outbound": "Proxy"
       },
@@ -294,6 +295,13 @@
         "tag": "twitter_domain",
         "type": "remote",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/twitter.srs",
+        "format": "binary",
+        "download_detour": "Direct"
+      },
+      {
+        "tag": "steam_domain",
+        "type": "remote",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/steam.srs",
         "format": "binary",
         "download_detour": "Direct"
       },
