@@ -94,6 +94,7 @@ const main = (config) => {
     'RULE-SET,tiktok_domain,Proxy',
     'RULE-SET,instagram_domain,Proxy',
     'RULE-SET,twitter_domain,Proxy',
+    'RULE-SET,steam_domain,Proxy',
     'RULE-SET,microsoft_domain,DIRECT',
     'RULE-SET,cn_domain,DIRECT',
     'RULE-SET,private_ip,DIRECT,no-resolve',
@@ -164,6 +165,10 @@ const main = (config) => {
     twitter_domain: {
       ...domainConfig,
       url: 'https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/twitter.mrs'
+    },
+    steam_domain: {
+      ...domainConfig,
+      url: 'https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/steam.mrs'
     },
     cn_domain: {
       ...domainConfig,
