@@ -66,7 +66,7 @@ proxy-groups:
     include-all: true
     exclude-type: direct
   
-  - name: Ads
+  - name: Block
     type: select
     proxies: 
       - REJECT
@@ -102,7 +102,7 @@ proxy-groups:
 rules:
   - RULE-SET,fakeip_filter,DIRECT
   - RULE-SET,private_domain,DIRECT
-  - RULE-SET,reject_domain,Ads
+  - RULE-SET,reject_domain,Block
   - RULE-SET,telegram_domain,Proxy
   - RULE-SET,google_domain,Proxy
   - RULE-SET,ai_domain,Proxy
