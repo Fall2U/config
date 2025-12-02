@@ -72,7 +72,7 @@ proxy-groups:
       - REJECT
       - DIRECT
   
-  - name: Microsoft
+  - name: Micro
     type: select
     proxies: 
       - DIRECT
@@ -94,8 +94,8 @@ proxy-groups:
     type: select
     proxies:
       - Proxy
-      - Ads
-      - Microsoft
+      - Block
+      - Micro
       - Steam
       - Japan
     
@@ -112,7 +112,7 @@ rules:
   - RULE-SET,instagram_domain,Proxy
   - RULE-SET,twitter_domain,Proxy
   - RULE-SET,steam_domain,Steam
-  - RULE-SET,microsoft_domain,Microsoft
+  - RULE-SET,microsoft_domain,Micro
   - RULE-SET,cn_domain,DIRECT
   - RULE-SET,private_ip,DIRECT,no-resolve
   - RULE-SET,telegram_ip,Proxy,no-resolve
