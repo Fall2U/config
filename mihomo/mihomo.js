@@ -96,6 +96,7 @@ const main = (config) => {
     'RULE-SET,twitter_domain,Proxy',
     'RULE-SET,steam_domain,Proxy',
     'RULE-SET,microsoft_domain,DIRECT',
+    'RULE-SET,proxy_domain,Proxy',
     'RULE-SET,cn_domain,DIRECT',
     'RULE-SET,private_ip,DIRECT,no-resolve',
     'RULE-SET,telegram_ip,Proxy,no-resolve',
@@ -173,6 +174,10 @@ const main = (config) => {
     cn_domain: {
       ...domainConfig,
       url: 'https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs'
+    },
+    proxy_domain: {
+      ...domainConfig,
+      url: 'https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-!cn.mrs'
     },
     private_ip: {
       ...ipConfig,
