@@ -113,6 +113,7 @@ rules:
   - RULE-SET,twitter_domain,Proxy
   - RULE-SET,steam_domain,Steam
   - RULE-SET,microsoft_domain,Micro
+  - RULE-SET,proxy_domain,Proxy
   - RULE-SET,cn_domain,DIRECT
   - RULE-SET,private_ip,DIRECT,no-resolve
   - RULE-SET,telegram_ip,Proxy,no-resolve
@@ -167,6 +168,9 @@ rule-providers:
   cn_domain:
     <<: *domain
     url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs"
+  proxy_domain:
+    <<: *domain
+    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-!cn.mrs"
   
   private_ip:
     <<: *ip
