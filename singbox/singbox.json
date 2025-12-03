@@ -141,8 +141,7 @@
       {
         "rule_set": [
           "fakeip_filter",
-          "private_domain",
-          "private_ip"
+          "private_domain"
         ],
         "outbound": "Direct"
       },
@@ -166,8 +165,25 @@
       },
       {
         "rule_set": [
-          "microsoft_domain",
+          "microsoft_domain"
+        ],
+        "outbound": "Direct"
+      },
+      {
+        "rule_set": [
+          "proxy_domain"
+        ],
+        "outbound": "Proxy"
+      },
+      {
+        "rule_set": [
           "cn_domain"
+        ],
+        "outbound": "Direct"
+      },
+      {
+        "rule_set": [
+          "private_ip"
         ],
         "outbound": "Direct"
       },
@@ -302,6 +318,13 @@
         "tag": "steam_domain",
         "type": "remote",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/steam.srs",
+        "format": "binary",
+        "download_detour": "Direct"
+      },
+      {
+        "tag": "proxy_domain",
+        "type": "remote",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-!cn.srs",
         "format": "binary",
         "download_detour": "Direct"
       },
