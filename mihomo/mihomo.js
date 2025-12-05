@@ -58,7 +58,7 @@ const main = (config) => {
     'default-nameserver': [
       'tls://223.5.5.5',
       'tls://223.6.6.6'
-    ]
+    ],
     'nameserver': [
       'https://cloudflare-dns.com/dns-query',
       'https://dns.google/dns-query'
