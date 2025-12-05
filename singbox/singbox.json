@@ -17,20 +17,19 @@
     "servers": [
       {
         "tag": "dns_local",
-        "type": "udp",
-        "server": "223.5.5.5"
+        "type": "local"
       },
       {
         "tag": "dns_proxy",
         "type": "https",
         "server": "cloudflare-dns.com",
         "detour": "Proxy",
-        "domain_resolver": "dns_local"
+        "domain_resolver": "dns_direct"
       },
       {
         "tag": "dns_direct",
         "type": "https",
-        "server": "dns.alidns.com",
+        "server": "doh.pub",
         "domain_resolver": "dns_local"
       },
       {
