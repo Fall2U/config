@@ -55,14 +55,21 @@ const main = (config) => {
       'rule-set:fakeip_filter',
       'rule-set:private_domain'
     ],
-    nameserver: [
-      'https://1.1.1.1/dns-query'
+    'default-nameserver': [
+      'tls://223.5.5.5',
+      'tls://223.6.6.6'
+    ]
+    'nameserver': [
+      'https://cloudflare-dns.com/dns-query',
+      'https://dns.google/dns-query'
     ],
     'proxy-server-nameserver': [
-      'https://223.5.5.5/dns-query'
+      'https://dns.alidns.com/dns-query',
+      'https://doh.pub/dns-query'
     ],
     'direct-nameserver': [
-      'https://223.5.5.5/dns-query'
+      'https://dns.alidns.com/dns-query',
+      'https://doh.pub/dns-query'
     ]
   };
   
