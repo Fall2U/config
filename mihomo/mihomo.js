@@ -51,6 +51,8 @@ const main = (config) => {
     ipv6: true,
     'respect-rules': true,
     'enhanced-mode': 'fake-ip',
+    'fake-ip-range': '28.0.0.1/8',
+    'fake-ip-range6': '2400::1/64',
     'fake-ip-filter': [
       'rule-set:fakeip_filter',
       'rule-set:private_domain'
