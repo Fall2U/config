@@ -66,6 +66,13 @@
         ],
         "rewrite_ttl": 1,
         "server": "fakeip"
+      },
+      {
+        "rule_set": [
+          "microsoft_domain",
+          "cn_domain"
+        ],
+        "server": "dns_direct"
       }
     ],
     "independent_cache": true,
