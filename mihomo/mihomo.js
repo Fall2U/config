@@ -57,17 +57,17 @@ const main = (config) => {
       'rule-set:fakeip_filter',
       'rule-set:private_domain'
     ],
-    'default-nameserver': [
-      'tls://223.5.5.5'
-    ],
     'nameserver': [
-      'https://dns.google/dns-query'
+      'https://8.8.8.8/dns-query',
+      'https://8.8.4.4/dns-query'
     ],
     'proxy-server-nameserver': [
-      'https://dns.alidns.com/dns-query'
+      'https://223.6.6.6/dns-query',
+      'https://223.5.5.5/dns-query'
     ],
     'direct-nameserver': [
-      'https://dns.alidns.com/dns-query'
+      'https://223.6.6.6/dns-query',
+      'https://223.5.5.5/dns-query'
     ]
   };
   
