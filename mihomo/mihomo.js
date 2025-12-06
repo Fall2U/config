@@ -58,20 +58,16 @@ const main = (config) => {
       'rule-set:private_domain'
     ],
     'default-nameserver': [
-      'tls://223.5.5.5',
-      'tls://223.6.6.6'
+      'tls://223.5.5.5'
     ],
     'nameserver': [
-      'https://cloudflare-dns.com/dns-query',
       'https://dns.google/dns-query'
     ],
     'proxy-server-nameserver': [
-      'https://dns.alidns.com/dns-query',
-      'https://doh.pub/dns-query'
+      'https://dns.alidns.com/dns-query'
     ],
     'direct-nameserver': [
-      'https://dns.alidns.com/dns-query',
-      'https://doh.pub/dns-query'
+      'https://dns.alidns.com/dns-query'
     ]
   };
   
