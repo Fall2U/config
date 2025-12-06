@@ -22,7 +22,7 @@
       {
         "tag": "dns_proxy",
         "type": "https",
-        "server": "cloudflare-dns.com",
+        "server": "dns.google",
         "detour": "Proxy",
         "domain_resolver": "dns_direct"
       },
