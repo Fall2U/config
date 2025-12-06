@@ -29,7 +29,7 @@
       {
         "tag": "dns_direct",
         "type": "https",
-        "server": "doh.pub",
+        "server": "dns.alidns.com",
         "domain_resolver": "dns_local"
       },
       {
