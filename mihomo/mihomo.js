@@ -61,21 +61,21 @@ const main = (config) => {
       'rule-set:fakeip_filter',
       'rule-set:private_domain'
     ],
-    'nameserver-policy': {
-      'rule-set:private_domain': ['system'],
-      'rule-set:fakeip_filter': [
-        'https://dns.alidns.com/dns-query'
-      ]
-    },
     'nameserver': [
       'https://dns.google/dns-query#Proxy'
     ],
     'proxy-server-nameserver': [
       'https://dns.alidns.com/dns-query'
     ],
-    'direct-nameserver': [
-      'https://dns.alidns.com/dns-query'
-    ]
+    'nameserver-policy': {
+      'rule-set:private_domain': ['system'],
+      'rule-set:fakeip_filter': [
+        'https://dns.alidns.com/dns-query'
+      ],
+      'rule-set:cn_domain': [
+        'https://dns.alidns.com/dns-query'
+      ]
+    }
   };
   
   config['proxy-groups'] = [
