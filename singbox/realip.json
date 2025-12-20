@@ -121,7 +121,9 @@
           "http",
           "tls",
           "dns"
-        ]
+        ],
+        "ip_is_private": true,
+        "invert": true
       },
       {
         "type": "logical",
