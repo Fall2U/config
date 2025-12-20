@@ -47,13 +47,13 @@ const main = (config) => {
   };
 
   config.hosts = {
-    "dns.alidns.com": ["223.6.6.6", "223.5.5.5"],
-    "dns.google": ["8.8.8.8", "8.8.4.4"]
+    'dns.alidns.com': ['223.6.6.6', '223.5.5.5'],
+    'dns.google': ['8.8.8.8', '8.8.4.4']
   };
   
   config.dns = {
     enable: true,
-    "cache-algorithm": arc,
+    'cache-algorithm': 'arc',
     ipv6: true,
     'respect-rules': true,
     'enhanced-mode': 'fake-ip',
@@ -61,20 +61,20 @@ const main = (config) => {
       'rule-set:fakeip_filter',
       'rule-set:private_domain'
     ],
-    "nameserver-policy": {
-      "rule-set:private_domain": ["system"],
-      "rule-set:fakeip_filter": [
-        "https://dns.alidns.com/dns-query"
+    'nameserver-policy': {
+      'rule-set:private_domain': ['system'],
+      'rule-set:fakeip_filter': [
+        'https://dns.alidns.com/dns-query'
       ]
     },
-    "nameserver": [
-      "https://dns.google/dns-query#Proxy"
+    'nameserver': [
+      'https://dns.google/dns-query#Proxy'
     ],
-    "proxy-server-nameserver": [
-      "https://dns.alidns.com/dns-query"
+    'proxy-server-nameserver': [
+      'https://dns.alidns.com/dns-query'
     ],
-    "direct-nameserver": [
-      "https://dns.alidns.com/dns-query"
+    'direct-nameserver': [
+      'https://dns.alidns.com/dns-query'
     ]
   };
   
@@ -86,10 +86,10 @@ const main = (config) => {
       'exclude-type': 'direct'
     },
     {
-      name: "GLOBAL",
-      type: "select",
+      name: 'GLOBAL',
+      type: 'select',
       proxies: [
-        "Proxy"
+        'Proxy'
       ]
     }
   ];
