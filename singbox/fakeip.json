@@ -175,9 +175,10 @@
       },
       {
         "rule_set": [
-          "telegram_ip",
           "google_domain",
           "google_ip",
+          "telegram_domain",
+          "telegram_ip",
           "github_domain",
           "steam_domain",
           "proxy_domain"
@@ -255,6 +256,13 @@
         "tag": "telegram_ip",
         "type": "remote",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/telegram.srs",
+        "format": "binary",
+        "download_detour": "Direct"
+      },
+      {
+        "tag": "telegram_domain",
+        "type": "remote",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/telegram.srs",
         "format": "binary",
         "download_detour": "Direct"
       },
