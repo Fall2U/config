@@ -71,12 +71,6 @@
         ],
         "rewrite_ttl": 1,
         "server": "fakeip"
-      },
-      {
-        "rule_set": [
-          "cn_domain"
-        ],
-        "server": "dns_direct"
       }
     ],
     "independent_cache": true,
