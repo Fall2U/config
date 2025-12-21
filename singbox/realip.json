@@ -54,15 +54,6 @@
       },
       {
         "rule_set": [
-          "google_domain",
-          "github_domain",
-          "steam_domain",
-          "proxy_domain"
-        ],
-        "server": "dns_proxy"
-      },
-      {
-        "rule_set": [
           "cn_domain"
         ],
         "server": "dns_direct"
