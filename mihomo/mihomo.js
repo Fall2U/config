@@ -104,9 +104,10 @@ const main = (config) => {
     "RULE-SET,private_domain,DIRECT",
     "RULE-SET,private_ip,DIRECT,no-resolve",
     "RULE-SET,reject_domain,REJECT",
-    "RULE-SET,telegram_ip,Proxy,no-resolve",
     "RULE-SET,google_domain,Proxy",
     "RULE-SET,google_ip,Proxy,no-resolve",
+    "RULE-SET,telegram_domain,Proxy",
+    "RULE-SET,telegram_ip,Proxy,no-resolve",
     "RULE-SET,github_domain,Proxy",
     "RULE-SET,steam_domain,Proxy",
     "RULE-SET,proxy_domain,Proxy",
@@ -145,6 +146,10 @@ const main = (config) => {
     "google_domain": {
       ...domainConfig,
       "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google.mrs"
+    },
+    "telegram_domain": {
+      ...domainConfig,
+      "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/telegram.mrs"
     },
     "github_domain": {
       ...domainConfig,
