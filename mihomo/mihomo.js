@@ -35,7 +35,7 @@ const main = (config) => {
 
   config["tun"] = {
     "enable": true,
-    "stack": "mixed",
+    "stack": "gvisor",
     "dns-hijack": [
       "any:53",
       "tcp://any:53"
