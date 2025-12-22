@@ -128,8 +128,20 @@
           "tls",
           "dns"
         ],
-        "ip_is_private": true,
-        "invert": true
+        "type": "logical",
+        "mode": "or",
+        "rules": [
+          {
+            "ip_is_private": true,
+            "invert": true
+          },
+          {
+            "ip_cidr": [
+              "198.18.0.0/15",
+              "fc00::/18"
+            ]
+          }
+        ]
       },
       {
         "type": "logical",
