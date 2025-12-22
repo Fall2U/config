@@ -86,7 +86,7 @@
       ],
       "auto_route": true,
       "strict_route": true,
-      "stack": "mixed",
+      "stack": "gvisor",
       "platform": {
         "http_proxy": {
           "enabled": true,
