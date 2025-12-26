@@ -60,7 +60,8 @@
       },
       {
         "rule_set": [
-          "fakeip_filter"
+          "fakeip_filter",
+          "cn_domain"
         ],
         "server": "dns_direct"
       },
