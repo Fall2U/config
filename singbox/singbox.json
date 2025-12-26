@@ -9,8 +9,7 @@
       "secret": ""
     },
     "cache_file": {
-      "enabled": true,
-      "store_fakeip": true
+      "enabled": true
     }
   },
   "dns": {
@@ -31,12 +30,6 @@
         "type": "https",
         "server": "dns.alidns.com",
         "domain_resolver": "dns_local"
-      },
-      {
-        "tag": "fakeip",
-        "type": "fakeip",
-        "inet4_range": "198.18.0.0/15",
-        "inet6_range": "fc00::/18"
       }
     ],
     "rules": [
@@ -46,7 +39,7 @@
       },
       {
         "clash_mode": "Global",
-        "server": "fakeip"
+        "server": "dns_proxy"
       },
       {
         "query_type": "HTTPS",
@@ -64,26 +57,17 @@
           "cn_domain"
         ],
         "server": "dns_direct"
-      },
-      {
-        "query_type": [
-          "A",
-          "AAAA"
-        ],
-        "rewrite_ttl": 1,
-        "server": "fakeip"
       }
     ],
     "independent_cache": true,
     "final": "dns_proxy",
-    "strategy": "prefer_ipv4"
+    "strategy": "ipv4_only"
   },
   "inbounds": [
     {
       "type": "tun",
       "address": [
-        "172.19.0.0/30",
-        "fdfe:dcba:9876::0/126"
+        "172.19.0.0/30"
       ],
       "auto_route": true,
       "strict_route": true,
@@ -135,12 +119,6 @@
           {
             "ip_is_private": true,
             "invert": true
-          },
-          {
-            "ip_cidr": [
-              "198.18.0.0/15",
-              "fc00::/18"
-            ]
           }
         ]
       },
@@ -194,16 +172,7 @@
       },
       {
         "rule_set": [
-          "cn_domain"
-        ],
-        "outbound": "Direct"
-      },
-      {
-        "action": "resolve",
-        "server": "dns_proxy"
-      },
-      {
-        "rule_set": [
+          "cn_domain",
           "cn_ip"
         ],
         "outbound": "Direct"
