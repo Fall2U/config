@@ -162,11 +162,11 @@ const main = (config) => {
     },
     "cn_domain": {
       ...domainConfig,
-      "url": "https://testingcf.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-ruleset/cn.mrs"
+      "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs"
     },
     "proxy_domain": {
       ...domainConfig,
-      "url": "https://testingcf.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-ruleset/gfw.mrs"
+      "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-!cn.mrs"
     },
     "private_ip": {
       ...ipConfig,
@@ -174,7 +174,7 @@ const main = (config) => {
     },
     "cn_ip": {
       ...ipConfig,
-      "url": "https://testingcf.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-ruleset/cnip.mrs"
+      "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs"
     },
     "google_ip": {
       ...ipConfig,
