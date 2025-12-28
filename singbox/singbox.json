@@ -35,8 +35,7 @@
       {
         "tag": "fakeip",
         "type": "fakeip",
-        "inet4_range": "198.18.0.0/15",
-        "inet6_range": "fc00::/18"
+        "inet4_range": "198.18.0.0/15"
       }
     ],
     "rules": [
@@ -66,8 +65,7 @@
       },
       {
         "query_type": [
-          "A",
-          "AAAA"
+          "A"
         ],
         "rewrite_ttl": 1,
         "server": "fakeip"
@@ -81,14 +79,13 @@
     ],
     "independent_cache": true,
     "final": "dns_proxy",
-    "strategy": "prefer_ipv4"
+    "strategy": "ipv4_only"
   },
   "inbounds": [
     {
       "type": "tun",
       "address": [
-        "172.19.0.0/30",
-        "fdfe:dcba:9876::0/126"
+        "172.19.0.0/30"
       ],
       "auto_route": true,
       "strict_route": true,
@@ -143,8 +140,7 @@
           },
           {
             "ip_cidr": [
-              "198.18.0.0/15",
-              "fc00::/18"
+              "198.18.0.0/15"
             ]
           }
         ]
