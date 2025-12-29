@@ -48,12 +48,15 @@
         "server": "fakeip"
       },
       {
-        "query_type": "HTTPS",
+        "query_type": [
+          "HTTPS",
+          "SVCB"
+        ],
         "action": "reject"
       },
       {
         "rule_set": [
-          "private_domain"
+          "private"
         ],
         "server": "dns_local"
       },
@@ -64,17 +67,33 @@
         "server": "dns_direct"
       },
       {
+        "rule_set": [
+          "google",
+          "telegram",
+          "github",
+          "steam",
+          "proxy"
+        ],
+        "server": "fakeip"
+      },
+      {
+        "rule_set": [
+          "cn"
+        ],
+        "server": "dns_direct"
+      },
+      {
+        "rule_set": [
+          "cn_ip"
+        ],
+        "server": "dns_proxy"
+      },
+      {
         "query_type": [
           "A"
         ],
         "rewrite_ttl": 1,
         "server": "fakeip"
-      },
-      {
-        "rule_set": [
-          "cn_domain"
-        ],
-        "server": "dns_direct"
       }
     ],
     "independent_cache": true,
@@ -161,7 +180,7 @@
       {
         "rule_set": [
           "fakeip_filter",
-          "private_domain"
+          "private"
         ],
         "outbound": "Direct"
       },
@@ -179,28 +198,25 @@
       },
       {
         "action": "reject",
-        "rule_set": "reject_domain"
+        "rule_set": "reject"
       },
       {
         "rule_set": [
-          "google_domain",
+          "google",
           "google_ip",
-          "telegram_domain",
+          "telegram",
           "telegram_ip",
-          "github_domain",
-          "steam_domain",
-          "proxy_domain"
+          "github",
+          "steam",
+          "proxy"
         ],
         "outbound": "Proxy"
       },
       {
         "rule_set": [
-          "cn_domain"
+          "cn"
         ],
         "outbound": "Direct"
-      },
-      {
-        "action": "resolve"
       },
       {
         "rule_set": [
@@ -218,14 +234,14 @@
         "download_detour": "Direct"
       },
       {
-        "tag": "private_domain",
+        "tag": "private",
         "type": "remote",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.srs",
         "format": "binary",
         "download_detour": "Direct"
       },
       {
-        "tag": "reject_domain",
+        "tag": "reject",
         "type": "remote",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/category-ads-all.srs",
         "format": "binary",
@@ -239,7 +255,7 @@
         "download_detour": "Direct"
       },
       {
-        "tag": "cn_domain",
+        "tag": "cn",
         "type": "remote",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs",
         "format": "binary",
@@ -253,7 +269,7 @@
         "download_detour": "Direct"
       },
       {
-        "tag": "google_domain",
+        "tag": "google",
         "type": "remote",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/google.srs",
         "format": "binary",
@@ -267,28 +283,28 @@
         "download_detour": "Direct"
       },
       {
-        "tag": "telegram_domain",
+        "tag": "telegram",
         "type": "remote",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/telegram.srs",
         "format": "binary",
         "download_detour": "Direct"
       },
       {
-        "tag": "github_domain",
+        "tag": "github",
         "type": "remote",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/github.srs",
         "format": "binary",
         "download_detour": "Direct"
       },
       {
-        "tag": "steam_domain",
+        "tag": "steam",
         "type": "remote",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/steam.srs",
         "format": "binary",
         "download_detour": "Direct"
       },
       {
-        "tag": "proxy_domain",
+        "tag": "proxy",
         "type": "remote",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-!cn.srs",
         "format": "binary",
