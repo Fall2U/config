@@ -35,7 +35,8 @@
       {
         "tag": "fakeip",
         "type": "fakeip",
-        "inet4_range": "198.18.0.0/15"
+        "inet4_range": "198.18.0.0/15",
+        "inet6_range": "fc00::/18"
       }
     ],
     "rules": [
@@ -49,8 +50,8 @@
       },
       {
         "query_type": [
-          "HTTPS",
-          "SVCB"
+        "HTTPS",
+        "SVCB"
         ],
         "action": "reject"
       },
@@ -67,13 +68,11 @@
         "server": "dns_direct"
       },
       {
-        "rule_set": [
-          "google",
-          "telegram",
-          "github",
-          "steam",
-          "proxy"
+        "query_type": [
+          "A",
+          "AAAA"
         ],
+        "rewrite_ttl": 1,
         "server": "fakeip"
       },
       {
@@ -81,30 +80,18 @@
           "cn"
         ],
         "server": "dns_direct"
-      },
-      {
-        "rule_set": [
-          "cn_ip"
-        ],
-        "server": "dns_proxy"
-      },
-      {
-        "query_type": [
-          "A"
-        ],
-        "rewrite_ttl": 1,
-        "server": "fakeip"
       }
     ],
     "independent_cache": true,
-    "final": "dns_proxy",
-    "strategy": "ipv4_only"
+    "final": "dns_proxy"
   },
   "inbounds": [
     {
       "type": "tun",
+      "tag": "Singbox Tunnel"
       "address": [
-        "172.19.0.0/30"
+        "172.19.0.0/30",
+        "fdfe:dcba:9876::0/126"
       ],
       "auto_route": true,
       "strict_route": true,
@@ -159,7 +146,8 @@
           },
           {
             "ip_cidr": [
-              "198.18.0.0/15"
+              "198.18.0.0/15",
+              "fc00::/18"
             ]
           }
         ]
@@ -217,6 +205,10 @@
           "cn"
         ],
         "outbound": "Direct"
+      },
+      {
+        "action": "resolve",
+        "match_only": true
       },
       {
         "rule_set": [
