@@ -74,9 +74,12 @@ dns:
   fake-ip-filter:
     - "rule-set:fakeip_filter"
     - "rule-set:private_domain"
+    - "rule-set:cn_domain"
   nameserver:
     - https://dns.google/dns-query#Proxy
   proxy-server-nameserver:
+    - https://dns.alidns.com/dns-query
+  direct-nameserver:
     - https://dns.alidns.com/dns-query
   nameserver-policy:
     "rule-set:private_domain": [system]
@@ -84,6 +87,7 @@ dns:
       - https://dns.alidns.com/dns-query
     "rule-set:cn_domain":
       - https://dns.alidns.com/dns-query
+  direct-nameserver-follow-policy: true
 
 proxy-groups:
   - name: Proxy
