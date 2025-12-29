@@ -64,7 +64,8 @@ const main = (config) => {
     "fake-ip-range6": "fc00::/18",
     "fake-ip-filter": [
       "rule-set:fakeip_filter",
-      "rule-set:private_domain"
+      "rule-set:private",
+      "rule-set:cn"
     ],
     "nameserver": [
       "https://dns.google/dns-query#Proxy"
@@ -72,17 +73,21 @@ const main = (config) => {
     "proxy-server-nameserver": [
       "https://dns.alidns.com/dns-query"
     ],
+    "direct-nameserver": [
+      "https://dns.alidns.com/dns-query"
+    ],
     "nameserver-policy": {
-      "rule-set:private_domain": [
+      "rule-set:private": [
         "system"
       ],
       "rule-set:fakeip_filter": [
         "https://dns.alidns.com/dns-query"
       ],
-      "rule-set:cn_domain": [
+      "rule-set:cn": [
         "https://dns.alidns.com/dns-query"
       ]
-    }
+    },
+    "direct-nameserver-follow-policy": true
   };
 
   config["proxy-groups"] = [{
@@ -102,17 +107,17 @@ const main = (config) => {
 
   config["rules"] = [
     "RULE-SET,fakeip_filter,DIRECT",
-    "RULE-SET,private_domain,DIRECT",
+    "RULE-SET,private,DIRECT",
     "RULE-SET,private_ip,DIRECT,no-resolve",
-    "RULE-SET,reject_domain,REJECT",
-    "RULE-SET,google_domain,Proxy",
+    "RULE-SET,reject,REJECT",
+    "RULE-SET,google,Proxy",
     "RULE-SET,google_ip,Proxy,no-resolve",
-    "RULE-SET,telegram_domain,Proxy",
+    "RULE-SET,telegram,Proxy",
     "RULE-SET,telegram_ip,Proxy,no-resolve",
-    "RULE-SET,github_domain,Proxy",
-    "RULE-SET,steam_domain,Proxy",
-    "RULE-SET,proxy_domain,Proxy",
-    "RULE-SET,cn_domain,DIRECT",
+    "RULE-SET,github,Proxy",
+    "RULE-SET,steam,Proxy",
+    "RULE-SET,proxy,Proxy",
+    "RULE-SET,cn,DIRECT",
     "RULE-SET,cn_ip,DIRECT",
     "MATCH,Proxy"
   ];
@@ -136,35 +141,35 @@ const main = (config) => {
       ...domainConfig,
       "url": "https://testingcf.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-ruleset/fakeip-filter.mrs"
     },
-    "private_domain": {
+    "private": {
       ...domainConfig,
       "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.mrs"
     },
-    "reject_domain": {
+    "reject": {
       ...domainConfig,
       "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-ads-all.mrs"
     },
-    "google_domain": {
+    "google": {
       ...domainConfig,
       "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google.mrs"
     },
-    "telegram_domain": {
+    "telegram": {
       ...domainConfig,
       "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/telegram.mrs"
     },
-    "github_domain": {
+    "github": {
       ...domainConfig,
       "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/github.mrs"
     },
-    "steam_domain": {
+    "steam": {
       ...domainConfig,
       "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/steam.mrs"
     },
-    "cn_domain": {
+    "cn": {
       ...domainConfig,
       "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs"
     },
-    "proxy_domain": {
+    "proxy": {
       ...domainConfig,
       "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-!cn.mrs"
     },
