@@ -1,35 +1,32 @@
-proxy-providers:
-  provider:
-    url: ""
-    type: http
-    interval: 86400
-    health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
-
 mixed-port: 7890
 ipv6: true
 allow-lan: true
 unified-delay: true
 tcp-concurrent: true
-external-controller: 127.0.0.1:9090
-secret: 
+external-controller: '127.0.0.1:9090'
+secret: null
 find-process-mode: strict
 global-client-fingerprint: random
-
 profile:
   store-selected: true
   store-fake-ip: true
-
 sniffer:
   enable: true
   parse-pure-ip: true
   sniff:
     HTTP:
-      ports: [80, 8080-8880]
+      ports:
+        - 80
+        - 8080-8880
       override-destination: true
     TLS:
-      ports: [443, 8443]
+      ports:
+        - 443
+        - 8443
     QUIC:
-      ports: [443, 8443]
+      ports:
+        - 443
+        - 8443
   skip-dst-address:
       - 0.0.0.0/8
       - 10.0.0.0/8
@@ -44,119 +41,176 @@ sniffer:
       - 198.51.100.0/24
       - 203.0.113.0/24
       - 224.0.0.0/3
-      - ::/128
-      - ::1/128
-      - fd00::/8
-      - fe80::/10
-      - ff00::/8
-
+      - '::/128'
+      - '::1/128'
+      - 'fd00::/8'
+      - 'fe80::/10'
+      - 'ff00::/8'
 tun:
   enable: true
   stack: gvisor
   dns-hijack:
-    - "any:53"
-    - "tcp://any:53"
+    - 'any:53'
+    - 'tcp://any:53'
   auto-route: true
   auto-detect-interface: true
   strict-route: true
-
 hosts:
-  dns.alidns.com: [223.6.6.6, 223.5.5.5]
-  dns.google: [8.8.8.8, 8.8.4.4]
-
+  dns.alidns.com:
+    - 223.6.6.6
+    - 223.5.5.5
+  dns.google:
+    - 8.8.8.8
+    - 8.8.4.4
 dns:
   enable: true
   cache-algorithm: arc
   ipv6: true
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.0/15
-  fake-ip-range6: fc00::/18
+  fake-ip-range6: 'fc00::/18'
   fake-ip-filter:
-    - "rule-set:fakeip_filter"
-    - "rule-set:private_domain"
-    - "rule-set:cn_domain"
+    - 'rule-set:fakeip_filter'
+    - 'rule-set:private'
+    - 'rule-set:cn'
   nameserver:
-    - https://dns.google/dns-query#Proxy
+    - 'https://dns.google/dns-query#Proxy'
   proxy-server-nameserver:
-    - https://dns.alidns.com/dns-query
+    - 'https://dns.alidns.com/dns-query'
   direct-nameserver:
-    - https://dns.alidns.com/dns-query
+    - 'https://dns.alidns.com/dns-query'
   nameserver-policy:
-    "rule-set:private_domain": [system]
-    "rule-set:fakeip_filter": 
-      - https://dns.alidns.com/dns-query
-    "rule-set:cn_domain":
-      - https://dns.alidns.com/dns-query
+    'rule-set:private':
+      - system
+    'rule-set:fakeip_filter':
+      - 'https://dns.alidns.com/dns-query'
+    'rule-set:cn':
+      - 'https://dns.alidns.com/dns-query'
   direct-nameserver-follow-policy: true
-
 proxy-groups:
   - name: Proxy
     type: select
     include-all: true
     exclude-type: direct
-  
   - name: GLOBAL
     type: select
     proxies:
       - Proxy
-    
 rules:
-  - RULE-SET,fakeip_filter,DIRECT
-  - RULE-SET,private_domain,DIRECT
-  - RULE-SET,private_ip,DIRECT,no-resolve
-  - RULE-SET,reject_domain,REJECT
-  - RULE-SET,google_domain,Proxy
-  - RULE-SET,google_ip,Proxy,no-resolve
-  - RULE-SET,telegram_domain,Proxy
-  - RULE-SET,telegram_ip,Proxy,no-resolve
-  - RULE-SET,github_domain,Proxy
-  - RULE-SET,steam_domain,Proxy
-  - RULE-SET,proxy_domain,Proxy
-  - RULE-SET,cn_domain,DIRECT
-  - RULE-SET,cn_ip,DIRECT
-  - MATCH,Proxy
-
+  - 'RULE-SET,fakeip_filter,DIRECT'
+  - 'RULE-SET,private,DIRECT'
+  - 'RULE-SET,private_ip,DIRECT,no-resolve'
+  - 'RULE-SET,reject,REJECT'
+  - 'RULE-SET,google,Proxy'
+  - 'RULE-SET,google_ip,Proxy,no-resolve'
+  - 'RULE-SET,telegram,Proxy'
+  - 'RULE-SET,telegram_ip,Proxy,no-resolve'
+  - 'RULE-SET,github,Proxy'
+  - 'RULE-SET,steam,Proxy'
+  - 'RULE-SET,proxy,Proxy'
+  - 'RULE-SET,cn,DIRECT'
+  - 'RULE-SET,cn_ip,DIRECT'
+  - 'MATCH,Proxy'
 rule-anchor:
-  ip: &ip {type: http, interval: 86400, behavior: ipcidr, format: mrs}
-  domain: &domain {type: http, interval: 86400, behavior: domain, format: mrs}
-  
-rule-providers: 
+  ip:
+    type: http
+    interval: 86400
+    behavior: ipcidr
+    format: mrs
+  domain:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+rule-providers:
   fakeip_filter:
-    <<: *domain
-    url: "https://testingcf.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-ruleset/fakeip-filter.mrs"
-  private_domain:
-    <<: *domain
-    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.mrs"
-  reject_domain:
-    <<: *domain
-    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-ads-all.mrs"
-  google_domain:
-    <<: *domain
-    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google.mrs"
-  telegram_domain:
-    <<: *domain
-    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/telegram.mrs"
-  github_domain:
-    <<: *domain
-    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/github.mrs"
-  steam_domain:
-    <<: *domain
-    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/steam.mrs"
-  cn_domain:
-    <<: *domain
-    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs"
-  proxy_domain:
-    <<: *domain
-    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-!cn.mrs"
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: >-
+      https://testingcf.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-ruleset/fakeip-filter.mrs
+  private:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: >-
+      https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.mrs
+  reject:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: >-
+      https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-ads-all.mrs
+  google:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: >-
+      https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google.mrs
+  telegram:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: >-
+      https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/telegram.mrs
+  github:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: >-
+      https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/github.mrs
+  steam:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: >-
+      https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/steam.mrs
+  cn:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: >-
+      https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs
+  proxy:
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    url: >-
+      https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-!cn.mrs
   private_ip:
-    <<: *ip
-    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/private.mrs"
+    type: http
+    interval: 86400
+    behavior: ipcidr
+    format: mrs
+    url: >-
+      https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/private.mrs
   cn_ip:
-    <<: *ip
-    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs"
+    type: http
+    interval: 86400
+    behavior: ipcidr
+    format: mrs
+    url: >-
+      https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs
   google_ip:
-    <<: *ip
-    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/google.mrs"
+    type: http
+    interval: 86400
+    behavior: ipcidr
+    format: mrs
+    url: >-
+      https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/google.mrs
   telegram_ip:
-    <<: *ip
-    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/telegram.mrs"
+    type: http
+    interval: 86400
+    behavior: ipcidr
+    format: mrs
+    url: >-
+      https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/telegram.mrs
