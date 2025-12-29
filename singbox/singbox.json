@@ -88,7 +88,7 @@
   "inbounds": [
     {
       "type": "tun",
-      "tag": "Singbox Tunnel"
+      "tag": "Singbox Tunnel",
       "address": [
         "172.19.0.0/30",
         "fdfe:dcba:9876::0/126"
