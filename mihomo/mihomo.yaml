@@ -30,7 +30,7 @@ sniffer:
       ports: [443, 8443]
     QUIC:
       ports: [443, 8443]
-    skip-dst-address:
+  skip-dst-address:
       - 0.0.0.0/8
       - 10.0.0.0/8
       - 100.64.0.0/10
