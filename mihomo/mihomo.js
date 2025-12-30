@@ -40,13 +40,13 @@ const main = (config) => {
   };
 
   config["hosts"] = {
-    "dns.alidns.com": [
-      "223.6.6.6",
-      "223.5.5.5"
-    ],
     "dns.google": [
       "8.8.8.8",
       "8.8.4.4"
+    ],
+    "dns.alidns.com": [
+      "223.6.6.6",
+      "223.5.5.5"
     ]
   };
 
@@ -77,8 +77,7 @@ const main = (config) => {
       "rule-set:fakeip_filter": [
         "https://dns.alidns.com/dns-query"
       ]
-    },
-    "direct-nameserver-follow-policy": true
+    }
   };
 
   config["proxy-groups"] = [{
