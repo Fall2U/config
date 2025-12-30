@@ -1,3 +1,10 @@
+proxy-providers:
+  provider:
+    url: ""
+    type: http
+    interval: 86400
+    health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
+
 mixed-port: 7890
 ipv6: true
 allow-lan: true
@@ -10,6 +17,7 @@ global-client-fingerprint: random
 profile:
   store-selected: true
   store-fake-ip: true
+
 sniffer:
   enable: true
   parse-pure-ip: true
@@ -85,6 +93,7 @@ dns:
       - 'https://223.6.6.6/dns-query'
       - 'https://223.5.5.5/dns-query'
   direct-nameserver-follow-policy: true
+
 proxy-groups:
   - name: Proxy
     type: select
@@ -109,6 +118,7 @@ rules:
   - 'RULE-SET,cn,DIRECT'
   - 'RULE-SET,cn_ip,DIRECT'
   - 'MATCH,Proxy'
+
 rule-anchor:
   ip:
     type: http
@@ -120,6 +130,7 @@ rule-anchor:
     interval: 86400
     behavior: domain
     format: mrs
+
 rule-providers:
   fakeip_filter:
     type: http
