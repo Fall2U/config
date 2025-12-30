@@ -11,7 +11,7 @@ allow-lan: true
 unified-delay: true
 tcp-concurrent: true
 external-controller: '127.0.0.1:9090'
-secret: null
+secret: 
 find-process-mode: strict
 global-client-fingerprint: random
 profile:
