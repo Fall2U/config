@@ -70,7 +70,6 @@ dns:
       - system
     'rule-set:fakeip_filter':
       - 'https://dns.alidns.com/dns-query'
-  direct-nameserver-follow-policy: true
 
 proxy-groups:
   - name: Proxy
