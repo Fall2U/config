@@ -23,37 +23,14 @@ sniffer:
   parse-pure-ip: true
   sniff:
     HTTP:
-      ports:
-        - 80
-        - 8080-8880
+      ports: [80, 8080-8880]
       override-destination: true
     TLS:
-      ports:
-        - 443
-        - 8443
+      ports: [443, 8443]
     QUIC:
-      ports:
-        - 443
-        - 8443
-  skip-dst-address:
-      - 0.0.0.0/8
-      - 10.0.0.0/8
-      - 100.64.0.0/10
-      - 127.0.0.0/8
-      - 169.254.0.0/16
-      - 172.16.0.0/12
-      - 192.0.0.0/24
-      - 192.0.2.0/24
-      - 192.88.99.0/24
-      - 192.168.0.0/16
-      - 198.51.100.0/24
-      - 203.0.113.0/24
-      - 224.0.0.0/3
-      - '::/128'
-      - '::1/128'
-      - 'fd00::/8'
-      - 'fe80::/10'
-      - 'ff00::/8'
+      ports: [443, 8443]
+  skip-dst-address: ["0.0.0.0/8", "10.0.0.0/8", "100.64.0.0/10", "127.0.0.0/8", "169.254.0.0/16", "172.16.0.0/12", "192.0.0.0/24", "192.0.2.0/24", "192.88.99.0/24", "192.168.0.0/16", "198.51.100.0/24", "203.0.113.0/24", "224.0.0.0/3", "::/127", "fe80::/10", "ff00::/8", "fc00:4000::/18", "fc00:8000::/17", "fc01::/16", "fc02::/15", "fc04::/14", "fc08::/13", "fc10::/12", "fc20::/11", "fc40::/10", "fc80::/9", "fd00::/8"]
+
 tun:
   enable: true
   stack: gvisor
@@ -63,6 +40,14 @@ tun:
   auto-route: true
   auto-detect-interface: true
   strict-route: true
+
+hosts:
+  dns.google:
+    - 8.8.8.8
+    - 8.8.4.4
+  dns.alidns.com:
+    - 223.6.6.6
+    - 223.5.5.5
 
 dns:
   enable: true
@@ -74,24 +59,17 @@ dns:
   fake-ip-filter:
     - 'rule-set:fakeip_filter'
     - 'rule-set:private'
-  default-nameserver:
-    - tls://223.6.6.6
-    - tls://223.5.5.5
   nameserver:
-    - 'https://8.8.8.8/dns-query#Proxy'
-    - 'https://8.8.4.4/dns-query#Proxy'
+    - 'https://dns.google/dns-query#Proxy'
   proxy-server-nameserver:
-    - 'https://223.6.6.6/dns-query'
-    - 'https://223.5.5.5/dns-query'
+    - 'https://dns.alidns.com/dns-query'
   direct-nameserver:
-    - 'https://223.6.6.6/dns-query'
-    - 'https://223.5.5.5/dns-query'
+    - 'https://dns.alidns.com/dns-query'
   nameserver-policy:
     'rule-set:private':
       - system
     'rule-set:fakeip_filter':
-      - 'https://223.6.6.6/dns-query'
-      - 'https://223.5.5.5/dns-query'
+      - 'https://dns.alidns.com/dns-query'
   direct-nameserver-follow-policy: true
 
 proxy-groups:
@@ -222,4 +200,4 @@ rule-providers:
     behavior: ipcidr
     format: mrs
     url: >-
-      https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/telegram.mrs
+      https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/
