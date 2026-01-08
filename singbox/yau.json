@@ -1,0 +1,343 @@
+{
+  "log": {
+    "level": "info",
+    "timestamp": true
+  },
+  "experimental": {
+    "clash_api": {
+      "external_controller": "127.0.0.1:1234",
+      "secret": ""
+    },
+    "cache_file": {
+      "enabled": true,
+      "store_fakeip": true
+    }
+  },
+  "dns": {
+    "servers": [
+      {
+        "tag": "dns_local",
+        "type": "local"
+      },
+      {
+        "tag": "dns_proxy",
+        "type": "https",
+        "server": "dns.google",
+        "detour": "Proxy",
+        "domain_resolver": "dns_direct"
+      },
+      {
+        "tag": "dns_direct",
+        "type": "https",
+        "server": "dns.alidns.com",
+        "domain_resolver": "dns_local"
+      },
+      {
+        "tag": "fakeip",
+        "type": "fakeip",
+        "inet4_range": "198.18.0.0/15",
+        "inet6_range": "fc00::/18"
+      }
+    ],
+    "rules": [
+      {
+        "clash_mode": "Direct",
+        "server": "dns_direct"
+      },
+      {
+        "clash_mode": "Global",
+        "server": "fakeip"
+      },
+      {
+        "query_type": [
+          "HTTPS",
+          "SVCB"
+        ],
+        "action": "reject"
+      },
+      {
+        "rule_set": [
+          "private"
+        ],
+        "server": "dns_local",
+        "strategy": "ipv4_only"
+      },
+      {
+        "rule_set": [
+          "fakeip_filter"
+        ],
+        "server": "dns_direct",
+        "strategy": "ipv4_only"
+      },
+      {
+        "rule_set": [
+          "google",
+          "telegram",
+          "github",
+          "steam",
+          "proxy"
+        ],
+        "server": "fakeip"
+      },
+      {
+        "rule_set": [
+          "cn"
+        ],
+        "server": "dns_direct",
+        "strategy": "ipv4_only"
+      },
+      {
+        "type": "logical",
+        "mode": "and",
+        "rules": [
+          {
+            "rule_set": "proxy",
+            "invert": true
+          },
+          {
+            "rule_set": "cn_ip"
+          }
+        ],
+        "server": "dns_proxy",
+        "client_subnet": "114.114.114.114/24"
+      },
+      {
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
+        "rewrite_ttl": 1,
+        "server": "fakeip"
+      }
+    ],
+    "independent_cache": true,
+    "final": "dns_proxy"
+  },
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "Singbox Tunnel",
+      "address": [
+        "172.19.0.0/30",
+        "fdfe:dcba:9876::0/126"
+      ],
+      "auto_route": true,
+      "strict_route": true,
+      "stack": "gvisor",
+      "platform": {
+        "http_proxy": {
+          "enabled": true,
+          "server": "127.0.0.1",
+          "server_port": 7890
+        }
+      }
+    },
+    {
+      "type": "mixed",
+      "listen": "127.0.0.1",
+      "listen_port": 7890
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "selector",
+      "tag": "Proxy",
+      "interrupt_exist_connections": true,
+      "outbounds": []
+    },
+    {
+      "type": "direct",
+      "tag": "Direct"
+    }
+  ],
+  "route": {
+    "auto_detect_interface": true,
+    "default_domain_resolver": {
+      "server": "dns_direct"
+    },
+    "final": "Proxy",
+    "rules": [
+      {
+        "action": "sniff",
+        "timeout": "500ms",
+        "sniffer": [
+          "http",
+          "tls",
+          "dns"
+        ],
+        "type": "logical",
+        "mode": "or",
+        "rules": [
+          {
+            "ip_is_private": true,
+            "invert": true
+          },
+          {
+            "ip_cidr": [
+              "198.18.0.0/15",
+              "fc00::/18"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "logical",
+        "mode": "or",
+        "rules": [
+          {
+            "port": 53
+          },
+          {
+            "protocol": "dns"
+          }
+        ],
+        "action": "hijack-dns"
+      },
+      {
+        "type": "logical",
+        "mode": "or",
+        "rules": [
+          {
+            "port": 853
+          },
+          {
+            "network": "udp",
+            "port": 443
+          },
+          {
+            "protocol": "stun"
+          }
+        ],
+        "action": "reject"
+      },
+      {
+        "rule_set": [
+          "fakeip_filter",
+          "private"
+        ],
+        "outbound": "Direct"
+      },
+      {
+        "ip_is_private": true,
+        "outbound": "Direct"
+      },
+      {
+        "clash_mode": "Global",
+        "outbound": "Proxy"
+      },
+      {
+        "clash_mode": "Direct",
+        "outbound": "Direct"
+      },
+      {
+        "action": "reject",
+        "rule_set": "reject"
+      },
+      {
+        "rule_set": [
+          "google",
+          "google_ip",
+          "telegram",
+          "telegram_ip",
+          "github",
+          "steam",
+          "proxy"
+        ],
+        "outbound": "Proxy"
+      },
+      {
+        "rule_set": [
+          "cn",
+          "cn_ip"
+        ],
+        "outbound": "Direct"
+      }
+    ],
+    "rule_set": [
+      {
+        "tag": "fakeip_filter",
+        "type": "remote",
+        "url": "https://testingcf.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/fakeip-filter.srs",
+        "format": "binary",
+        "download_detour": "Direct"
+      },
+      {
+        "tag": "private",
+        "type": "remote",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.srs",
+        "format": "binary",
+        "download_detour": "Direct"
+      },
+      {
+        "tag": "reject",
+        "type": "remote",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/category-ads-all.srs",
+        "format": "binary",
+        "download_detour": "Direct"
+      },
+      {
+        "tag": "cn_ip",
+        "type": "remote",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.srs",
+        "format": "binary",
+        "download_detour": "Direct"
+      },
+      {
+        "tag": "cn",
+        "type": "remote",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs",
+        "format": "binary",
+        "download_detour": "Direct"
+      },
+      {
+        "tag": "google_ip",
+        "type": "remote",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/google.srs",
+        "format": "binary",
+        "download_detour": "Direct"
+      },
+      {
+        "tag": "google",
+        "type": "remote",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/google.srs",
+        "format": "binary",
+        "download_detour": "Direct"
+      },
+      {
+        "tag": "telegram_ip",
+        "type": "remote",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/telegram.srs",
+        "format": "binary",
+        "download_detour": "Direct"
+      },
+      {
+        "tag": "telegram",
+        "type": "remote",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/telegram.srs",
+        "format": "binary",
+        "download_detour": "Direct"
+      },
+      {
+        "tag": "github",
+        "type": "remote",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/github.srs",
+        "format": "binary",
+        "download_detour": "Direct"
+      },
+      {
+        "tag": "steam",
+        "type": "remote",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/steam.srs",
+        "format": "binary",
+        "download_detour": "Direct"
+      },
+      {
+        "tag": "proxy",
+        "type": "remote",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-!cn.srs",
+        "format": "binary",
+        "download_detour": "Direct"
+      }
+    ]
+  }
+}
